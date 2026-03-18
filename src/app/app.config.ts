@@ -7,14 +7,12 @@ import { API_BASE_URL } from './core/tokens/api-base-url.token';
 import { httpErrorInterceptor } from './core/interceptors/http-error.interceptor';
 
 import { routes } from './app.routes';
-import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { environment } from '../environments/environment';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
-    provideClientHydration(withEventReplay()),
     provideHttpClient(withInterceptors([httpErrorInterceptor])),
     {
       provide: API_BASE_URL,

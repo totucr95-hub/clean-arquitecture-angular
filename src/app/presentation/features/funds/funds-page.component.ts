@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/cor
 import { CurrencyPipe } from '@angular/common';
 import { GetFundsUseCase } from '../../../application/use-cases/funds/get-funds.use-case';
 import { Fund } from '../../../dominio/entities/fund.entity';
+import { User } from '../../../dominio/entities/user.entity';
 
 @Component({
   selector: 'app-funds-page',
@@ -9,6 +10,9 @@ import { Fund } from '../../../dominio/entities/fund.entity';
   template: `
     <section class="funds-page">
       <h1>Fondos disponibles</h1>
+      <p class="user-balance">
+        Saldo disponible: {{ user().balance | currency: 'COP' : 'symbol' : '1.0-0' }}
+      </p>
 
       @if (loading()) {
         <p>Cargando fondos...</p>
@@ -46,6 +50,12 @@ import { Fund } from '../../../dominio/entities/fund.entity';
         padding: 0;
       }
 
+      .user-balance {
+        margin-top: 0.5rem;
+        margin-bottom: 1.5rem;
+        font-weight: 700;
+      }
+
       .fund-item {
         border: 1px solid #d9d9d9;
         border-radius: 0.75rem;
@@ -62,6 +72,10 @@ import { Fund } from '../../../dominio/entities/fund.entity';
 export class FundsPageComponent {
   private readonly getFundsUseCase = inject(GetFundsUseCase);
 
+  protected readonly user = signal<User>({
+    id: 1,
+    balance: 100_000_000,
+  });
   protected readonly funds = signal<Fund[]>([]);
   protected readonly loading = signal(true);
   protected readonly error = signal<string | null>(null);
