@@ -5,7 +5,7 @@
 Dependencies always point inward:
 
 - presentation -> application -> dominio
-- infraestructure -> application + dominio
+- infrastructure -> application + dominio
 - core is transversal and must not contain business rules
 
 ## Folder responsibilities
@@ -15,7 +15,7 @@ Dependencies always point inward:
 - application/use-cases: business use cases orchestrating entities/repositories
 - dominio/entities: domain entities and invariants
 - dominio/repositories: repository interfaces (ports)
-- infraestructure/repositories: adapter implementations (http/db/api)
+- infrastructure/repositories: adapter implementations (http/db/api)
 - presentation/features: pages/components by feature
 - presentation/shared/components: reusable UI components
 
@@ -25,7 +25,7 @@ Use feature-first naming to keep search simple:
 
 - fund.entity.ts, transaction.entity.ts, user.entity.ts
 - fund.repository.ts (interface in dominio/repositories)
-- fund-http.repository.ts (implementation in infraestructure/repositories/funds)
+- fund-http.repository.ts (implementation in infrastructure/repositories/funds)
 - subscribe-fund.use-case.ts (in application/use-cases/funds)
 - fund-list.page.ts or fund-list.component.ts (in presentation/features/funds)
 

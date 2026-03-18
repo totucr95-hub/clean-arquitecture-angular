@@ -5,13 +5,14 @@ import {
   HttpParams,
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { API_BASE_URL } from '../tokens/api-base-url.token';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
   private readonly http = inject(HttpClient);
-  private readonly apiBaseUrl = 'http://localhost:3000';
+  private readonly apiBaseUrl = inject(API_BASE_URL);
 
   get<T>(endpoint: string, options?: HttpRequestOptions): Observable<T> {
     return this.http.get<T>(this.buildUrl(endpoint), options);
