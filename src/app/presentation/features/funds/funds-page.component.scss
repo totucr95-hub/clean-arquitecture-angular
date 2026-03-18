@@ -1,0 +1,159 @@
+.funds-page {
+  max-width: 72rem;
+  margin: 2rem auto;
+  padding: 1rem;
+  color: #1a1f2e;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.1rem;
+    border: 1px solid #e8eaf0;
+    border-radius: 1rem;
+    background: linear-gradient(180deg, #ffffff 0%, #f9fafc 100%);
+    box-shadow: 0 12px 25px rgba(10, 31, 68, 0.06);
+  }
+
+  &__title {
+    margin: 0;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+  }
+
+  &__nav {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  &__nav-link {
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 999px;
+    padding: 0.45rem 0.9rem;
+    color: #274167;
+    background: #eef3fb;
+  }
+
+  &__list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+    gap: 1rem;
+    list-style: none;
+    padding: 0;
+    margin-top: 1rem;
+  }
+
+  &__balance {
+    margin: 1rem 0 0.5rem;
+    padding: 0.75rem 0.9rem;
+    border-radius: 0.75rem;
+    background: #eff9f1;
+    border: 1px solid #cdeed4;
+    color: #0a6c3b;
+    font-weight: 700;
+  }
+
+  &__feedback {
+    margin: 0.75rem 0 0;
+    padding: 0.7rem 0.85rem;
+    border-radius: 0.65rem;
+    color: #0a6c3b;
+    background: #e7f8ec;
+    border: 1px solid #c9edd7;
+    font-weight: 600;
+
+    &--error {
+      color: #a12f19;
+      background: #ffeae5;
+      border-color: #ffd3c7;
+    }
+  }
+
+  &__card {
+    border: 1px solid #e8eaf0;
+    border-radius: 0.95rem;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    background: #ffffff;
+    box-shadow: 0 10px 20px rgba(10, 31, 68, 0.05);
+  }
+
+  &__card-title,
+  &__card-text {
+    margin: 0;
+  }
+
+  &__status {
+    font-weight: 700;
+    margin: 0.2rem 0;
+    color: #4d6488;
+
+    &--subscribed {
+      color: #0a6c3b;
+    }
+  }
+
+  &__field-label {
+    font-size: 0.86rem;
+    font-weight: 700;
+    color: #4d6488;
+  }
+
+  &__field-input {
+    border: 1px solid #ccd5e4;
+    border-radius: 0.6rem;
+    padding: 0.55rem;
+
+    &:focus {
+      outline: 2px solid #b8d1ff;
+      outline-offset: 1px;
+    }
+  }
+
+  &__button {
+    border: 0;
+    border-radius: 0.6rem;
+    padding: 0.62rem 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    background: #0f62fe;
+    color: #ffffff;
+
+    &--secondary {
+      background: #e8eaf0;
+      color: #202020;
+    }
+
+    &--danger {
+      background: #b42318;
+      color: #ffffff;
+    }
+  }
+
+  &__actions-row {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  &__error {
+    color: #b42318;
+    margin-top: 0.8rem;
+  }
+}
+
+@media (max-width: 760px) {
+  .funds-page {
+    margin-top: 1rem;
+    padding: 0.8rem;
+
+    &__header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+}

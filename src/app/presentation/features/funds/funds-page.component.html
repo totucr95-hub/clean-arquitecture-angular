@@ -1,0 +1,88 @@
+<section class="funds-page">
+  <header class="funds-page__header">
+    <h1 class="funds-page__title">Fondos disponibles</h1>
+    <nav class="funds-page__nav">
+      <a class="funds-page__nav-link" routerLink="/funds">Fondos</a>
+      <a class="funds-page__nav-link" routerLink="/transactions">Historial</a>
+    </nav>
+  </header>
+
+  <p class="funds-page__balance">
+    Saldo disponible: {{ user().balance | currency: 'COP' : 'symbol' : '1.0-0' }}
+  </p>
+
+  @if (actionMessage()) {
+    <p class="funds-page__feedback" [class.funds-page__feedback--error]="actionType() === 'error'">
+      {{ actionMessage() }}
+    </p>
+  }
+
+  @if (loading()) {
+    <p>Cargando fondos...</p>
+  }
+
+  @if (error()) {
+    <p class="funds-page__error">{{ error() }}</p>
+  }
+
+  @if (!loading() && !error()) {
+    <ul class="funds-page__list">
+      @for (fund of funds(); track fund.id) {
+        <li class="funds-page__card">
+          <h2 class="funds-page__card-title">{{ fund.name }}</h2>
+          <p class="funds-page__card-text">Monto minimo: {{ fund.min | currency: 'COP' : 'symbol' : '1.0-0' }}</p>
+
+          @if (isSubscribed(fund.id)) {
+            <p class="funds-page__status funds-page__status--subscribed">
+              Estado: Suscrito
+              ({{ getSubscriptionAmount(fund.id) | currency: 'COP' : 'symbol' : '1.0-0' }})
+            </p>
+            <button type="button" class="funds-page__button funds-page__button--danger" (click)="cancelSubscription(fund.id)">
+              Cancelar suscripcion
+            </button>
+          } @else {
+            <p class="funds-page__status">Estado: No suscrito</p>
+
+            @if (!isSubscriptionFormOpen(fund.id)) {
+              <button type="button" class="funds-page__button" (click)="toggleSubscriptionForm(fund.id)">
+                Suscribirme
+              </button>
+            }
+
+            @if (isSubscriptionFormOpen(fund.id)) {
+              <label class="funds-page__field-label" [for]="'amount-' + fund.id">Monto a suscribir</label>
+              <input
+                [id]="'amount-' + fund.id"
+                class="funds-page__field-input"
+                type="number"
+                [value]="getAmountForFund(fund.id, fund.min)"
+                [min]="fund.min"
+                (input)="onAmountChange(fund.id, $event)"
+              />
+
+              <label class="funds-page__field-label" [for]="'notif-' + fund.id">Metodo de notificacion</label>
+              <select
+                [id]="'notif-' + fund.id"
+                class="funds-page__field-input"
+                [value]="getNotificationForFund(fund.id)"
+                (change)="onNotificationMethodChange(fund.id, $event)"
+              >
+                <option value="EMAIL">Email</option>
+                <option value="SMS">SMS</option>
+              </select>
+
+              <div class="funds-page__actions-row">
+                <button type="button" class="funds-page__button" (click)="subscribeToFund(fund)">
+                  Confirmar suscripcion
+                </button>
+                <button type="button" class="funds-page__button funds-page__button--secondary" (click)="toggleSubscriptionForm(fund.id)">
+                  Cerrar
+                </button>
+              </div>
+            }
+          }
+        </li>
+      }
+    </ul>
+  }
+</section>

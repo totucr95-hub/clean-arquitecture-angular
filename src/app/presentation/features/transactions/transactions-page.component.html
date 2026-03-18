@@ -1,0 +1,51 @@
+<section class="transactions-page">
+  <header class="transactions-page__header transactions-page__header--card">
+    <div class="transactions-page__header-copy">
+      <p class="transactions-page__eyebrow">Movimientos de cuenta</p>
+      <h1 class="transactions-page__title">Historial de transacciones</h1>
+      <p class="transactions-page__subtitle">Consulta tus suscripciones y cancelaciones con detalle.</p>
+    </div>
+
+    <nav class="transactions-page__nav" aria-label="Navegacion principal">
+      <a class="transactions-page__nav-link" routerLink="/funds" routerLinkActive="transactions-page__nav-link--active">Fondos</a>
+      <a class="transactions-page__nav-link" routerLink="/transactions" routerLinkActive="transactions-page__nav-link--active">Historial</a>
+    </nav>
+  </header>
+
+  <section class="transactions-page__table-shell transactions-page__table-shell--card" aria-label="Tabla de transacciones">
+    <table class="transactions-page__table">
+      <thead class="transactions-page__table-head">
+        <tr class="transactions-page__table-head-row">
+          <th class="transactions-page__table-head-cell">Fecha</th>
+          <th class="transactions-page__table-head-cell">Tipo</th>
+          <th class="transactions-page__table-head-cell">Fondo</th>
+          <th class="transactions-page__table-head-cell">Monto</th>
+          <th class="transactions-page__table-head-cell">Notificacion</th>
+        </tr>
+      </thead>
+      <tbody class="transactions-page__table-body">
+        @if (transactions().length === 0) {
+          <tr class="transactions-page__table-row">
+            <td colspan="5" class="transactions-page__empty-cell">Aun no hay transacciones registradas.</td>
+          </tr>
+        }
+
+        @for (transaction of transactions(); track transaction.id) {
+          <tr class="transactions-page__table-row">
+            <td class="transactions-page__table-cell">{{ transaction.date | date: 'medium' }}</td>
+            <td class="transactions-page__table-cell">
+              <span class="transactions-page__badge" [class.transactions-page__badge--subscribe]="transaction.type === 'SUBSCRIBE'" [class.transactions-page__badge--cancel]="transaction.type === 'CANCEL'">
+                {{ transaction.type === 'SUBSCRIBE' ? 'Suscripcion' : 'Cancelacion' }}
+              </span>
+            </td>
+            <td class="transactions-page__table-cell">{{ getFundName(transaction.fundId) }}</td>
+            <td class="transactions-page__table-cell transactions-page__table-cell--amount">{{ transaction.amount | currency: 'COP' : 'symbol' : '1.0-0' }}</td>
+            <td class="transactions-page__table-cell">
+              <span class="transactions-page__badge transactions-page__badge--soft">{{ transaction.notificationMethod }}</span>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </section>
+</section>

@@ -77,6 +77,24 @@
       "date": "2026-03-18T19:54:31.904Z",
       "notificationMethod": "SMS",
       "id": 6
+    },
+    {
+      "userId": 1,
+      "fundId": 1,
+      "amount": 99000000,
+      "type": "SUBSCRIBE",
+      "date": "2026-03-18T20:28:23.892Z",
+      "notificationMethod": "EMAIL",
+      "id": 7
+    },
+    {
+      "userId": 1,
+      "fundId": 1,
+      "amount": 99000000,
+      "type": "CANCEL",
+      "date": "2026-03-18T20:36:53.623Z",
+      "notificationMethod": "EMAIL",
+      "id": 8
     }
   ]
 }

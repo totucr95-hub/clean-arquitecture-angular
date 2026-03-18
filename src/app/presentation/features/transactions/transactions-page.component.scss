@@ -1,0 +1,144 @@
+.transactions-page {
+  max-width: 70rem;
+  margin: 2rem auto;
+  padding: 1rem;
+  color: #1a1f2e;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1.25rem;
+
+    &--card {
+      background: linear-gradient(180deg, #ffffff 0%, #f9fafc 100%);
+      border: 1px solid #e8eaf0;
+      border-radius: 1rem;
+      box-shadow: 0 12px 25px rgba(10, 31, 68, 0.06);
+      padding: 1rem 1.25rem;
+    }
+  }
+
+  &__eyebrow {
+    margin: 0;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #4d6488;
+    font-weight: 700;
+  }
+
+  &__title {
+    margin: 0.35rem 0 0;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+  }
+
+  &__subtitle {
+    margin: 0.45rem 0 0;
+    color: #5b6780;
+  }
+
+  &__nav {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  &__nav-link {
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 999px;
+    padding: 0.45rem 0.9rem;
+    color: #274167;
+    background: #eef3fb;
+
+    &--active {
+      background: #0f62fe;
+      color: #ffffff;
+    }
+  }
+
+  &__table-shell {
+    margin-top: 1rem;
+    overflow: hidden;
+    overflow-x: auto;
+
+    &--card {
+      background: linear-gradient(180deg, #ffffff 0%, #f9fafc 100%);
+      border: 1px solid #e8eaf0;
+      border-radius: 1rem;
+      box-shadow: 0 12px 25px rgba(10, 31, 68, 0.06);
+    }
+  }
+
+  &__table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  &__table-head-cell,
+  &__table-cell {
+    border-bottom: 1px solid #e8eaf0;
+    text-align: left;
+    padding: 0.9rem 0.85rem;
+  }
+
+  &__table-head-cell {
+    font-size: 0.875rem;
+    color: #4d6488;
+    font-weight: 700;
+  }
+
+  &__table-row:hover {
+    background: #f7faff;
+  }
+
+  &__badge {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.25rem 0.6rem;
+
+    &--subscribe {
+      color: #0a6c3b;
+      background: #dff8ea;
+    }
+
+    &--cancel {
+      color: #a12f19;
+      background: #ffe7e2;
+    }
+
+    &--soft {
+      color: #274167;
+      background: #e8eef8;
+    }
+  }
+
+  &__table-cell--amount {
+    font-weight: 700;
+  }
+
+  &__empty-cell {
+    text-align: center;
+    color: #5b6780;
+    padding: 1.4rem 0.85rem;
+  }
+}
+
+@media (max-width: 760px) {
+  .transactions-page {
+    margin-top: 1rem;
+    padding: 0.8rem;
+
+    &__header {
+      flex-direction: column;
+    }
+
+    &__table {
+      min-width: 42rem;
+    }
+  }
+}
