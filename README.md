@@ -1,59 +1,172 @@
-# AngularPruebaFondos
+# angular-prueba-fondos
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.2.
+Aplicacion Angular para gestion de fondos, suscripciones/cancelaciones e historial de transacciones, con enfoque en arquitectura limpia.
 
-## Development server
+## 1. Stack tecnico
 
-To start a local development server, run:
+- Angular 21 (standalone components)
+- TypeScript
+- RxJS
+- json-server (mock backend)
+- Jest + jest-preset-angular (unit testing y cobertura)
 
-```bash
-ng serve
-```
+## 2. Requisitos
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- Node.js 20+
+- npm 10+
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## 3. Instalacion
 
 ```bash
-ng generate --help
+npm install
 ```
 
-## Building
+## 4. Ejecucion del proyecto
 
-To build the project run:
+### Opcion recomendada (frontend + mock API)
+
+Levanta Angular y json-server al mismo tiempo:
 
 ```bash
-ng build
+npm run start:dev
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Servicios:
 
-## Running unit tests
+- Frontend: http://localhost:4200
+- API mock: http://localhost:3000
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+### Solo frontend
 
 ```bash
-ng test
+npm start
 ```
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
+### Solo mock API
 
 ```bash
-ng e2e
+npm run json-server
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## 5. Scripts principales
 
-## Additional Resources
+- `npm start`: inicia Angular en modo desarrollo
+- `npm run start:dev`: inicia Angular + json-server en paralelo
+- `npm run build`: build de produccion
+- `npm run watch`: build continuo en modo desarrollo
+- `npm test`: corre pruebas unitarias con Jest y genera cobertura
+- `npm run test:watch`: modo watch de Jest
+- `npm run test:ng`: runner de pruebas de Angular CLI
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## 6. Pruebas unitarias y cobertura
+
+Este proyecto usa Jest como runner principal.
+
+### Ejecutar todas las pruebas
+
+```bash
+npm test
+```
+
+### Ejecutar en modo watch
+
+```bash
+npm run test:watch
+```
+
+### Reportes de cobertura
+
+Al ejecutar `npm test` se generan reportes en:
+
+- `coverage/jest/`
+- `coverage/jest/lcov-report/index.html` (reporte HTML)
+
+Estado actual esperado: cobertura global muy alta (incluyendo casos de negocio, infraestructura, componentes y branches).
+
+## 7. Arquitectura
+
+Se aplica arquitectura limpia por capas:
+
+- `presentation`: componentes/paginas UI y manejo de estado de pantalla
+- `application`: casos de uso (orquestacion de reglas)
+- `dominio`: entidades y puertos (interfaces de repositorio)
+- `infrastructure`: adaptadores concretos (API, DTOs, mappers)
+- `core`: servicios tecnicos transversales (ApiService, tokens DI, interceptores)
+
+Direccion de dependencias:
+
+- `presentation -> application -> dominio`
+- `infrastructure -> dominio` (implementa puertos)
+- `core` aporta piezas tecnicas de soporte
+
+## 8. Estructura del proyecto (resumen)
+
+```text
+src/app/
+	application/
+		use-cases/
+	core/
+		interceptors/
+		services/
+		tokens/
+	dominio/
+		entities/
+		repositories/
+	infrastructure/
+		funds/
+		portfolio/
+	presentation/
+		features/
+```
+
+## 9. Integracion de datos
+
+La API mock se basa en `db.json` y expone recursos como:
+
+- `/fondos`
+- `/users`
+- `/subscriptions`
+- `/transactions`
+
+La URL base se inyecta desde `environment.apiBaseUrl`.
+
+## 10. Configuracion de entornos
+
+- Desarrollo: `http://localhost:3000`
+- Produccion: `https://api.example.com` (placeholder, reemplazar por URL real)
+
+Archivos relacionados:
+
+- `src/environments/environment.ts`
+- `src/environments/environment.development.ts`
+- `src/environments/environment.production.ts`
+
+## 11. Flujo funcional principal
+
+1. Consultar fondos disponibles.
+2. Ver balance del usuario.
+3. Suscribirse a un fondo con validaciones (monto minimo, duplicado, saldo).
+4. Cancelar suscripcion activa y reembolsar saldo.
+5. Registrar y consultar historial de transacciones.
+
+## 12. Buenas practicas del repositorio
+
+- Mantener reglas de negocio en casos de uso, no en componentes.
+- Mantener contratos (interfaces) en dominio.
+- Usar mappers para convertir DTOs a entidades.
+- Mantener pruebas unitarias por capa (use-case, service, mapper, component).
+- Antes de push: ejecutar `npm test` y `npm run build`.
+
+## 13. Troubleshooting rapido
+
+- Si falla la API: verificar que json-server este en puerto 3000.
+- Si falla DI en runtime: validar providers y tokens en la configuracion global.
+- Si cambias endpoints/DTOs: actualizar mapper y pruebas asociadas.
+- Si cambia comportamiento de UI: ajustar tests de componentes en `presentation/features`.
+
+## 14. Comandos recomendados antes de merge
+
+```bash
+npm run build
+npm test
+```
