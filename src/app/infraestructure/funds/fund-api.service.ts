@@ -3,12 +3,8 @@ import { map, Observable } from 'rxjs';
 import { Fund } from '../../dominio/entities/fund.entity';
 import { ApiService } from '../../core/services/api.service';
 import { FundRepository } from '../../dominio/repositories/fund.repository';
-
-interface FundDbDto {
-  id: number;
-  nombre: string;
-  valor: number;
-}
+import { FundDbDto } from './dtos/fund-db.dto';
+import { toFundEntity } from './mappers/fund.mapper';
 
 @Injectable({
   providedIn: 'root',
@@ -18,15 +14,7 @@ export class FundApiService implements FundRepository {
 
   getFunds(): Observable<Fund[]> {
     return this.apiService.get<FundDbDto[]>('/fondos').pipe(
-      map((funds) => funds.map((fund) => this.toDomain(fund))),
+      map((funds) => funds.map(toFundEntity)),
     );
-  }
-
-  private toDomain(fund: FundDbDto): Fund {
-    return {
-      id: fund.id,
-      name: fund.nombre,
-      min: fund.valor,
-    };
   }
 }
