@@ -1,190 +1,83 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  DestroyRef,
   inject,
-  signal,
 } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { GetFundsUseCase } from '../../../application/use-cases/funds/get-funds.use-case';
-import { SubscribeToFundUseCase } from '../../../application/use-cases/funds/subscribe-to-fund.use-case';
-import { CancelFundSubscriptionUseCase } from '../../../application/use-cases/funds/cancel-fund-subscription.use-case';
-import { GetSubscriptionsUseCase } from '../../../application/use-cases/funds/get-subscriptions.use-case';
-import { GetCurrentUserUseCase } from '../../../application/use-cases/users/get-current-user.use-case';
 import { Fund } from '../../../dominio/entities/fund.entity';
-import { User } from '../../../dominio/entities/user.entity';
 import {
   NotificationMethod,
 } from '../../../dominio/entities/transaction.entity';
-import { PortfolioSubscription } from '../../../dominio/repositories/portfolio.repository';
+import { FundsPageFacade } from './funds-page.facade';
 
 @Component({
   selector: 'app-funds-page',
   imports: [CurrencyPipe, RouterLink],
+  providers: [FundsPageFacade],
   templateUrl: './funds-page.component.html',
   styleUrl: './funds-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FundsPageComponent {
-  private readonly destroyRef = inject(DestroyRef);
-  private readonly getFundsUseCase = inject(GetFundsUseCase);
-  private readonly subscribeToFundUseCase = inject(SubscribeToFundUseCase);
-  private readonly cancelFundSubscriptionUseCase = inject(
-    CancelFundSubscriptionUseCase,
-  );
-  private readonly getSubscriptionsUseCase = inject(GetSubscriptionsUseCase);
-  private readonly getCurrentUserUseCase = inject(GetCurrentUserUseCase);
+  private readonly facade = inject(FundsPageFacade);
 
-  protected readonly user = signal<User>({
-    id: 1,
-    balance: 100_000_000,
-  });
-  protected readonly funds = signal<Fund[]>([]);
-  protected readonly subscriptions = signal<Record<number, PortfolioSubscription>>({});
-  protected readonly amountsByFund = signal<Record<number, number>>({});
-  protected readonly notificationByFund = signal<Record<number, NotificationMethod>>({});
-  protected readonly openSubscriptionFormByFund = signal<Record<number, boolean>>({});
-  protected readonly loading = signal(true);
-  protected readonly error = signal<string | null>(null);
-  protected readonly actionMessage = signal<string | null>(null);
-  protected readonly actionType = signal<'success' | 'error'>('success');
+  protected readonly user = this.facade.user;
+  protected readonly funds = this.facade.funds;
+  protected readonly subscriptions = this.facade.subscriptions;
+  protected readonly amountsByFund = this.facade.amountsByFund;
+  protected readonly notificationByFund = this.facade.notificationByFund;
+  protected readonly openSubscriptionFormByFund = this.facade.openSubscriptionFormByFund;
+  protected readonly loading = this.facade.loading;
+  protected readonly error = this.facade.error;
+  protected readonly actionMessage = this.facade.actionMessage;
+  protected readonly actionType = this.facade.actionType;
 
   constructor() {
-    this.loadFunds();
-    this.loadUser();
-    this.loadSubscriptions();
-  }
-
-  private loadFunds(): void {
-    this.loading.set(true);
-    this.error.set(null);
-
-    this.getFundsUseCase.execute().pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-      next: (funds) => {
-        this.funds.set(funds);
-        this.initializeDefaultsForFunds(funds);
-        this.loading.set(false);
-      },
-      error: () => {
-        this.error.set('No fue posible cargar los fondos.');
-        this.loading.set(false);
-      },
-    });
-  }
-
-  private loadUser(): void {
-    this.getCurrentUserUseCase
-      .execute()
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((user) => this.user.set(user));
-  }
-
-  private loadSubscriptions(): void {
-    this.getSubscriptionsUseCase
-      .execute()
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((subscriptions) => this.subscriptions.set(subscriptions));
+    this.facade.loadInitialData();
   }
 
   private initializeDefaultsForFunds(funds: Fund[]): void {
-    this.amountsByFund.update((current) => {
-      const next = { ...current };
-      for (const fund of funds) {
-        if (!next[fund.id]) {
-          next[fund.id] = fund.min;
-        }
-      }
-      return next;
-    });
-
-    this.notificationByFund.update((current) => {
-      const next = { ...current };
-      for (const fund of funds) {
-        if (!next[fund.id]) {
-          next[fund.id] = 'EMAIL';
-        }
-      }
-      return next;
-    });
+    this.facade.initializeDefaultsForFunds(funds);
   }
 
   protected isSubscribed(fundId: number): boolean {
-    return !!this.subscriptions()[fundId];
+    return this.facade.isSubscribed(fundId);
   }
 
   protected getSubscriptionAmount(fundId: number): number {
-    return this.subscriptions()[fundId]?.amount ?? 0;
+    return this.facade.getSubscriptionAmount(fundId);
   }
 
   protected getAmountForFund(fundId: number, fallback: number): number {
-    return this.amountsByFund()[fundId] ?? fallback;
+    return this.facade.getAmountForFund(fundId, fallback);
   }
 
   protected getNotificationForFund(fundId: number): NotificationMethod {
-    return this.notificationByFund()[fundId] ?? 'EMAIL';
+    return this.facade.getNotificationForFund(fundId);
   }
 
   protected onAmountChange(fundId: number, event: Event): void {
-    const input = event.target as HTMLInputElement;
-    const value = Number(input.value);
-    this.amountsByFund.update((current) => ({
-      ...current,
-      [fundId]: Number.isFinite(value) ? value : 0,
-    }));
+    this.facade.onAmountChange(fundId, event);
   }
 
   protected onNotificationMethodChange(fundId: number, event: Event): void {
-    const select = event.target as HTMLSelectElement;
-    const value = select.value === 'SMS' ? 'SMS' : 'EMAIL';
-    this.notificationByFund.update((current) => ({
-      ...current,
-      [fundId]: value,
-    }));
+    this.facade.onNotificationMethodChange(fundId, event);
   }
 
   protected isSubscriptionFormOpen(fundId: number): boolean {
-    return !!this.openSubscriptionFormByFund()[fundId];
+    return this.facade.isSubscriptionFormOpen(fundId);
   }
 
   protected toggleSubscriptionForm(fundId: number): void {
-    this.openSubscriptionFormByFund.update((current) => ({
-      ...current,
-      [fundId]: !current[fundId],
-    }));
+    this.facade.toggleSubscriptionForm(fundId);
   }
 
   protected subscribeToFund(fund: Fund): void {
-    const amount = this.getAmountForFund(fund.id, fund.min);
-    const notificationMethod = this.getNotificationForFund(fund.id);
-
-    this.subscribeToFundUseCase
-      .execute({ fund, amount, notificationMethod })
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((result) => {
-        this.actionType.set(result.success ? 'success' : 'error');
-        this.actionMessage.set(result.message);
-        if (result.success) {
-          this.openSubscriptionFormByFund.update((current) => ({
-            ...current,
-            [fund.id]: false,
-          }));
-        }
-        this.loadUser();
-        this.loadSubscriptions();
-      });
+    this.facade.subscribeToFund(fund);
   }
 
   protected cancelSubscription(fundId: number): void {
-    this.cancelFundSubscriptionUseCase
-      .execute(fundId)
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((result) => {
-        this.actionType.set(result.success ? 'success' : 'error');
-        this.actionMessage.set(result.message);
-        this.loadUser();
-        this.loadSubscriptions();
-      });
+    this.facade.cancelSubscription(fundId);
   }
 }
