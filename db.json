@@ -1,0 +1,14 @@
+{
+    "fondos": [
+        {
+            "id": 1,
+            "nombre": "Fondo A",
+            "valor": 1000
+        },
+        {
+            "id": 2,
+            "nombre": "Fondo B",
+            "valor": 2000
+        }
+    ]
+}
