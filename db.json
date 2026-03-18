@@ -1,14 +1,82 @@
 {
-    "fondos": [
-        {
-            "id": 1,
-            "nombre": "Fondo A",
-            "valor": 1000
-        },
-        {
-            "id": 2,
-            "nombre": "Fondo B",
-            "valor": 2000
-        }
-    ]
+  "fondos": [
+    {
+      "id": 1,
+      "nombre": "Fondo A",
+      "valor": 1000000
+    },
+    {
+      "id": 2,
+      "nombre": "Fondo B",
+      "valor": 2000000
+    },
+    {
+      "id": 3,
+      "nombre": "Fondo C",
+      "valor": 5000000
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "balance": 100000000
+    }
+  ],
+  "subscriptions": [],
+  "transactions": [
+    {
+      "userId": 1,
+      "fundId": 1,
+      "amount": 1000000,
+      "type": "SUBSCRIBE",
+      "date": "2026-03-18T19:51:15.524Z",
+      "notificationMethod": "SMS",
+      "id": 1
+    },
+    {
+      "userId": 1,
+      "fundId": 1,
+      "amount": 1000000,
+      "type": "CANCEL",
+      "date": "2026-03-18T19:51:20.663Z",
+      "notificationMethod": "SMS",
+      "id": 2
+    },
+    {
+      "userId": 1,
+      "fundId": 1,
+      "amount": 1000000,
+      "type": "SUBSCRIBE",
+      "date": "2026-03-18T19:51:29.538Z",
+      "notificationMethod": "SMS",
+      "id": 3
+    },
+    {
+      "userId": 1,
+      "fundId": 1,
+      "amount": 1000000,
+      "type": "CANCEL",
+      "date": "2026-03-18T19:51:36.469Z",
+      "notificationMethod": "SMS",
+      "id": 4
+    },
+    {
+      "userId": 1,
+      "fundId": 1,
+      "amount": 1000000,
+      "type": "SUBSCRIBE",
+      "date": "2026-03-18T19:54:28.822Z",
+      "notificationMethod": "SMS",
+      "id": 5
+    },
+    {
+      "userId": 1,
+      "fundId": 1,
+      "amount": 1000000,
+      "type": "CANCEL",
+      "date": "2026-03-18T19:54:31.904Z",
+      "notificationMethod": "SMS",
+      "id": 6
+    }
+  ]
 }

@@ -13,4 +13,11 @@ export const routes: Routes = [
 				(m) => m.FundsPageComponent,
 			),
 	},
+	{
+		path: 'transactions',
+		loadComponent: () =>
+			import('./presentation/features/transactions/transactions-page.component').then(
+				(m) => m.TransactionsPageComponent,
+			),
+	},
 ];

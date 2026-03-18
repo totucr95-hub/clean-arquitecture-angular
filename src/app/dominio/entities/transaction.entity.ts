@@ -1,4 +1,5 @@
 export type TransactionType = 'SUBSCRIBE' | 'CANCEL';
+export type NotificationMethod = 'EMAIL' | 'SMS';
 
 export enum TransactionTypeEnum {
   SUBSCRIBE = 'SUBSCRIBE',
@@ -11,4 +12,5 @@ export interface Transaction {
   amount: number;
   type: TransactionType;
   date: string; // ISO string
+  notificationMethod: NotificationMethod;
 }
