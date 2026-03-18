@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Fund } from '../../../dominio/fund.model';
+import { Fund } from '../../../dominio/entities/fund.entity';
 import { FUND_REPOSITORY } from '../../../core/tokens/fund-repository.token';
 import { FundRepository } from '../../../dominio/repositories/fund.repository';
 

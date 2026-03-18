@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { GetFundsUseCase } from '../../../application/use-cases/funds/get-funds.use-case';
-import { Fund } from '../../../dominio/fund.model';
+import { Fund } from '../../../dominio/entities/fund.entity';
 
 @Component({
   selector: 'app-funds-page',
