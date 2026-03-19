@@ -38,11 +38,17 @@ Servicios:
 - Frontend: http://localhost:4200
 - API mock: http://localhost:3000
 
-### Solo frontend
+### Solo frontend por ambiente
 
 ```bash
-npm start
+npm run start:angular:dev
+npm run start:staging
+npm run start:prod
 ```
+
+- `npm run start:angular:dev`: usa `environment.development.ts`
+- `npm run start:staging`: usa `environment.staging.ts`
+- `npm run start:prod`: usa `environment.production.ts`
 
 ### Solo mock API
 
@@ -54,7 +60,13 @@ npm run json-server
 
 - `npm start`: inicia Angular en modo desarrollo
 - `npm run start:dev`: inicia Angular + json-server en paralelo
+- `npm run start:angular:dev`: inicia Angular con configuracion development
+- `npm run start:staging`: inicia Angular con configuracion staging
+- `npm run start:prod`: inicia Angular con configuracion production
 - `npm run build`: build de produccion
+- `npm run build:dev`: build con configuracion development
+- `npm run build:staging`: build con configuracion staging
+- `npm run build:prod`: build con configuracion production
 - `npm run watch`: build continuo en modo desarrollo
 - `npm test`: corre pruebas unitarias con Jest y genera cobertura
 - `npm run test:watch`: modo watch de Jest
@@ -125,7 +137,7 @@ Direccion de dependencias:
 - `infrastructure -> dominio` (implementa puertos)
 - `core` aporta piezas tecnicas de soporte
 
-## 8. Estructura del proyecto (resumen)
+## 9. Estructura del proyecto (resumen)
 
 ```text
 src/app/
@@ -145,7 +157,7 @@ src/app/
 		features/
 ```
 
-## 9. Integracion de datos
+## 10. Integracion de datos
 
 La API mock se basa en `db.json` y expone recursos como:
 
@@ -156,18 +168,32 @@ La API mock se basa en `db.json` y expone recursos como:
 
 La URL base se inyecta desde `environment.apiBaseUrl`.
 
-## 10. Configuracion de entornos
+## 11. Configuracion de entornos
 
 - Desarrollo: `http://localhost:3000`
+- Staging: `https://staging-api.example.com` (placeholder, reemplazar por URL real)
 - Produccion: `https://api.example.com` (placeholder, reemplazar por URL real)
 
 Archivos relacionados:
 
 - `src/environments/environment.ts`
 - `src/environments/environment.development.ts`
+- `src/environments/environment.staging.ts`
 - `src/environments/environment.production.ts`
 
-## 11. Flujo funcional principal
+Comandos por ambiente:
+
+```bash
+npm run start:angular:dev
+npm run start:staging
+npm run start:prod
+
+npm run build:dev
+npm run build:staging
+npm run build:prod
+```
+
+## 12. Flujo funcional principal
 
 1. Consultar fondos disponibles.
 2. Ver balance del usuario.
@@ -175,7 +201,7 @@ Archivos relacionados:
 4. Cancelar suscripcion activa y reembolsar saldo.
 5. Registrar y consultar historial de transacciones.
 
-## 12. Buenas practicas del repositorio
+## 13. Buenas practicas del repositorio
 
 - Mantener reglas de negocio en casos de uso, no en componentes.
 - Mantener contratos (interfaces) en dominio.
@@ -183,14 +209,14 @@ Archivos relacionados:
 - Mantener pruebas unitarias por capa (use-case, service, mapper, component).
 - Antes de push: ejecutar `npm test` y `npm run build`.
 
-## 13. Troubleshooting rapido
+## 14. Troubleshooting rapido
 
 - Si falla la API: verificar que json-server este en puerto 3000.
 - Si falla DI en runtime: validar providers y tokens en la configuracion global.
 - Si cambias endpoints/DTOs: actualizar mapper y pruebas asociadas.
 - Si cambia comportamiento de UI: ajustar tests de componentes en `presentation/features`.
 
-## 14. Comandos recomendados antes de merge
+## 15. Comandos recomendados antes de merge
 
 ```bash
 npm run build
