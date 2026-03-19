@@ -1,7 +1,4 @@
-import {
-  NotificationMethod,
-  TransactionType,
-} from '../../../dominio/entities/transaction.entity';
+import { NotificationMethod, TransactionType } from '../../../dominio/entities/transaction.entity';
 
 export interface TransactionDbDto {
   id: number;

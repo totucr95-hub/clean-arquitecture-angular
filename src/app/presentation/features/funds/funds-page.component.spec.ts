@@ -18,9 +18,7 @@ describe('FundsPageComponent', () => {
   beforeEach(async () => {
     jest.clearAllMocks();
 
-    getFundsUseCaseMock.execute.mockReturnValue(
-      of([{ id: 2, name: 'Fondo Test', min: 75000 }]),
-    );
+    getFundsUseCaseMock.execute.mockReturnValue(of([{ id: 2, name: 'Fondo Test', min: 75000 }]));
     getSubscriptionsUseCaseMock.execute.mockReturnValue(of({}));
     getCurrentUserUseCaseMock.execute.mockReturnValue(of({ id: 1, balance: 1000000 }));
     subscribeUseCaseMock.execute.mockReturnValue(
@@ -78,10 +76,7 @@ describe('FundsPageComponent', () => {
     const component = fixture.componentInstance as any;
 
     component.onAmountChange(2, { target: { value: '123000' } } as unknown as Event);
-    component.onNotificationMethodChange(
-      2,
-      { target: { value: 'SMS' } } as unknown as Event,
-    );
+    component.onNotificationMethodChange(2, { target: { value: 'SMS' } } as unknown as Event);
 
     expect(component.getAmountForFund(2, 75000)).toBe(123000);
     expect(component.getNotificationForFund(2)).toBe('SMS');
@@ -99,9 +94,7 @@ describe('FundsPageComponent', () => {
   });
 
   it('reports load error when funds request fails', () => {
-    getFundsUseCaseMock.execute.mockReturnValueOnce(
-      throwError(() => new Error('network')),
-    );
+    getFundsUseCaseMock.execute.mockReturnValueOnce(throwError(() => new Error('network')));
 
     const fixture = TestBed.createComponent(FundsPageComponent);
     const component = fixture.componentInstance as any;
@@ -132,10 +125,7 @@ describe('FundsPageComponent', () => {
     const fixture = TestBed.createComponent(FundsPageComponent);
     const component = fixture.componentInstance as any;
 
-    component.onNotificationMethodChange(
-      2,
-      { target: { value: 'PIGEON' } } as unknown as Event,
-    );
+    component.onNotificationMethodChange(2, { target: { value: 'PIGEON' } } as unknown as Event);
 
     expect(component.getNotificationForFund(2)).toBe('EMAIL');
   });

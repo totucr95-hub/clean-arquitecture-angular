@@ -28,8 +28,6 @@ describe('FundApiService', () => {
     const funds = await firstValueFrom(service.getFunds());
 
     expect(apiServiceMock.get).toHaveBeenCalledWith('/fondos');
-    expect(funds).toEqual([
-      { id: 1, name: 'FPV_BTG PACTUAL RECAUDADORA', min: 75000 },
-    ]);
+    expect(funds).toEqual([{ id: 1, name: 'FPV_BTG PACTUAL RECAUDADORA', min: 75000 }]);
   });
 });

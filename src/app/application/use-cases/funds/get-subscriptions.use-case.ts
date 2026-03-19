@@ -10,9 +10,7 @@ import {
   providedIn: 'root',
 })
 export class GetSubscriptionsUseCase {
-  private readonly portfolioRepository = inject<PortfolioRepository>(
-    PORTFOLIO_REPOSITORY,
-  );
+  private readonly portfolioRepository = inject<PortfolioRepository>(PORTFOLIO_REPOSITORY);
 
   execute(): Observable<Record<number, PortfolioSubscription>> {
     return this.portfolioRepository.getSubscriptions();

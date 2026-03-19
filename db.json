@@ -19,10 +19,25 @@
   "users": [
     {
       "id": 1,
-      "balance": 100000000
+      "balance": 97000000
     }
   ],
-  "subscriptions": [],
+  "subscriptions": [
+    {
+      "userId": 1,
+      "fundId": 2,
+      "amount": 2000000,
+      "notificationMethod": "EMAIL",
+      "id": 2
+    },
+    {
+      "userId": 1,
+      "fundId": 1,
+      "amount": 1000000,
+      "notificationMethod": "EMAIL",
+      "id": 3
+    }
+  ],
   "transactions": [
     {
       "userId": 1,
@@ -95,6 +110,78 @@
       "date": "2026-03-18T20:36:53.623Z",
       "notificationMethod": "EMAIL",
       "id": 8
+    },
+    {
+      "userId": 1,
+      "fundId": 1,
+      "amount": 1000000,
+      "type": "SUBSCRIBE",
+      "date": "2026-03-18T21:18:41.050Z",
+      "notificationMethod": "EMAIL",
+      "id": 9
+    },
+    {
+      "userId": 1,
+      "fundId": 2,
+      "amount": 2222222,
+      "type": "SUBSCRIBE",
+      "date": "2026-03-18T21:25:43.945Z",
+      "notificationMethod": "SMS",
+      "id": 10
+    },
+    {
+      "userId": 1,
+      "fundId": 1,
+      "amount": 1000000,
+      "type": "CANCEL",
+      "date": "2026-03-18T23:38:51.139Z",
+      "notificationMethod": "EMAIL",
+      "id": 11
+    },
+    {
+      "userId": 1,
+      "fundId": 2,
+      "amount": 2222222,
+      "type": "CANCEL",
+      "date": "2026-03-18T23:38:52.323Z",
+      "notificationMethod": "SMS",
+      "id": 12
+    },
+    {
+      "userId": 1,
+      "fundId": 1,
+      "amount": 1000000,
+      "type": "SUBSCRIBE",
+      "date": "2026-03-19T03:02:34.648Z",
+      "notificationMethod": "SMS",
+      "id": 13
+    },
+    {
+      "userId": 1,
+      "fundId": 2,
+      "amount": 2000000,
+      "type": "SUBSCRIBE",
+      "date": "2026-03-19T03:23:35.967Z",
+      "notificationMethod": "EMAIL",
+      "id": 14
+    },
+    {
+      "userId": 1,
+      "fundId": 1,
+      "amount": 1000000,
+      "type": "CANCEL",
+      "date": "2026-03-19T03:23:36.981Z",
+      "notificationMethod": "SMS",
+      "id": 15
+    },
+    {
+      "userId": 1,
+      "fundId": 1,
+      "amount": 1000000,
+      "type": "SUBSCRIBE",
+      "date": "2026-03-19T03:23:43.127Z",
+      "notificationMethod": "EMAIL",
+      "id": 16
     }
   ]
 }

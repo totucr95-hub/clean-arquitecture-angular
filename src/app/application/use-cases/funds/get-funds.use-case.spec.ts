@@ -28,9 +28,7 @@ describe('GetFundsUseCase', () => {
   });
 
   it('returns funds from repository', async () => {
-    mockRepository.getFunds.mockReturnValue(
-      of([{ id: 1, name: 'Fondo A', min: 50000 }]),
-    );
+    mockRepository.getFunds.mockReturnValue(of([{ id: 1, name: 'Fondo A', min: 50000 }]));
 
     const funds = await firstValueFrom(useCase.execute());
 

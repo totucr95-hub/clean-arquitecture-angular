@@ -1,8 +1,4 @@
-import {
-  HttpErrorResponse,
-  HttpRequest,
-  HttpResponse,
-} from '@angular/common/http';
+import { HttpErrorResponse, HttpRequest, HttpResponse } from '@angular/common/http';
 import { firstValueFrom, of, throwError } from 'rxjs';
 import { httpErrorInterceptor } from './http-error.interceptor';
 
@@ -11,9 +7,7 @@ describe('httpErrorInterceptor', () => {
 
   it('passes through successful responses', async () => {
     const result = await firstValueFrom(
-      httpErrorInterceptor(req, () =>
-        of(new HttpResponse({ status: 200, body: { ok: true } })),
-      ),
+      httpErrorInterceptor(req, () => of(new HttpResponse({ status: 200, body: { ok: true } }))),
     );
 
     expect(result).toBeInstanceOf(HttpResponse);
@@ -23,9 +17,7 @@ describe('httpErrorInterceptor', () => {
   it('maps status 0 to network message', async () => {
     await expect(
       firstValueFrom(
-        httpErrorInterceptor(req, () =>
-          throwError(() => new HttpErrorResponse({ status: 0 })),
-        ),
+        httpErrorInterceptor(req, () => throwError(() => new HttpErrorResponse({ status: 0 }))),
       ),
     ).rejects.toThrow('Network error. Check your connection.');
   });
@@ -33,18 +25,14 @@ describe('httpErrorInterceptor', () => {
   it('maps server errors (>=500) to server message', async () => {
     await expect(
       firstValueFrom(
-        httpErrorInterceptor(req, () =>
-          throwError(() => new HttpErrorResponse({ status: 500 })),
-        ),
+        httpErrorInterceptor(req, () => throwError(() => new HttpErrorResponse({ status: 500 }))),
       ),
     ).rejects.toThrow('Server error. Try again later.');
   });
 
   it('maps unknown errors to unexpected network error', async () => {
     await expect(
-      firstValueFrom(
-        httpErrorInterceptor(req, () => throwError(() => new Error('boom'))),
-      ),
+      firstValueFrom(httpErrorInterceptor(req, () => throwError(() => new Error('boom')))),
     ).rejects.toThrow('Unexpected network error.');
   });
 
@@ -52,9 +40,7 @@ describe('httpErrorInterceptor', () => {
     const original = new HttpErrorResponse({ status: 404, statusText: 'Not Found' });
 
     await expect(
-      firstValueFrom(
-        httpErrorInterceptor(req, () => throwError(() => original)),
-      ),
+      firstValueFrom(httpErrorInterceptor(req, () => throwError(() => original))),
     ).rejects.toBe(original);
   });
 });

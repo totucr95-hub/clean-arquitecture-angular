@@ -15,9 +15,7 @@ export class FundsPageFacade {
   private readonly destroyRef = inject(DestroyRef);
   private readonly getFundsUseCase = inject(GetFundsUseCase);
   private readonly subscribeToFundUseCase = inject(SubscribeToFundUseCase);
-  private readonly cancelFundSubscriptionUseCase = inject(
-    CancelFundSubscriptionUseCase,
-  );
+  private readonly cancelFundSubscriptionUseCase = inject(CancelFundSubscriptionUseCase);
   private readonly getSubscriptionsUseCase = inject(GetSubscriptionsUseCase);
   private readonly getCurrentUserUseCase = inject(GetCurrentUserUseCase);
 
@@ -45,17 +43,20 @@ export class FundsPageFacade {
     this.loading.set(true);
     this.error.set(null);
 
-    this.getFundsUseCase.execute().pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-      next: (funds) => {
-        this.funds.set(funds);
-        this.initializeDefaultsForFunds(funds);
-        this.loading.set(false);
-      },
-      error: () => {
-        this.error.set('No fue posible cargar los fondos.');
-        this.loading.set(false);
-      },
-    });
+    this.getFundsUseCase
+      .execute()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (funds) => {
+          this.funds.set(funds);
+          this.initializeDefaultsForFunds(funds);
+          this.loading.set(false);
+        },
+        error: () => {
+          this.error.set('No fue posible cargar los fondos.');
+          this.loading.set(false);
+        },
+      });
   }
 
   private loadUser(): void {

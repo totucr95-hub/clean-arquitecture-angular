@@ -7,20 +7,10 @@ import {
   PortfolioSubscription,
   SubscribeCommand,
 } from '../../dominio/repositories/portfolio.repository';
-import {
-  NotificationMethod,
-  Transaction,
-  TransactionTypeEnum,
-} from '../../dominio/entities/transaction.entity';
+import { Transaction, TransactionTypeEnum } from '../../dominio/entities/transaction.entity';
 import { User } from '../../dominio/entities/user.entity';
-import {
-  CreateSubscriptionDbDto,
-  SubscriptionDbDto,
-} from './dtos/subscription-db.dto';
-import {
-  CreateTransactionDbDto,
-  TransactionDbDto,
-} from './dtos/transaction-db.dto';
+import { CreateSubscriptionDbDto, SubscriptionDbDto } from './dtos/subscription-db.dto';
+import { CreateTransactionDbDto, TransactionDbDto } from './dtos/transaction-db.dto';
 import { UserDbDto } from './dtos/user-db.dto';
 import {
   toSubscriptionRecord,
@@ -46,9 +36,7 @@ export class PortfolioApiService implements PortfolioRepository {
 
   getTransactions(): Observable<Transaction[]> {
     return this.apiService
-      .get<TransactionDbDto[]>(
-        `/transactions?userId=${CURRENT_USER_ID}&_sort=id&_order=desc`,
-      )
+      .get<TransactionDbDto[]>(`/transactions?userId=${CURRENT_USER_ID}&_sort=id&_order=desc`)
       .pipe(map((transactions) => transactions.map(toTransactionEntity)));
   }
 
@@ -79,26 +67,26 @@ export class PortfolioApiService implements PortfolioRepository {
             `/users/${CURRENT_USER_ID}`,
             { balance: updatedBalance },
           ),
-          subscription: this.apiService.post<
-            SubscriptionDbDto,
-            CreateSubscriptionDbDto
-          >('/subscriptions', {
-            userId: CURRENT_USER_ID,
-            fundId: command.fundId,
-            amount: command.amount,
-            notificationMethod: command.notificationMethod,
-          }),
-          transaction: this.apiService.post<
-            TransactionDbDto,
-            CreateTransactionDbDto
-          >('/transactions', {
-            userId: CURRENT_USER_ID,
-            fundId: command.fundId,
-            amount: command.amount,
-            type: TransactionTypeEnum.SUBSCRIBE,
-            date: new Date().toISOString(),
-            notificationMethod: command.notificationMethod,
-          }),
+          subscription: this.apiService.post<SubscriptionDbDto, CreateSubscriptionDbDto>(
+            '/subscriptions',
+            {
+              userId: CURRENT_USER_ID,
+              fundId: command.fundId,
+              amount: command.amount,
+              notificationMethod: command.notificationMethod,
+            },
+          ),
+          transaction: this.apiService.post<TransactionDbDto, CreateTransactionDbDto>(
+            '/transactions',
+            {
+              userId: CURRENT_USER_ID,
+              fundId: command.fundId,
+              amount: command.amount,
+              type: TransactionTypeEnum.SUBSCRIBE,
+              date: new Date().toISOString(),
+              notificationMethod: command.notificationMethod,
+            },
+          ),
         }).pipe(
           map(({ updatedUser }) => ({
             success: true,
@@ -122,10 +110,7 @@ export class PortfolioApiService implements PortfolioRepository {
 
         if (!currentSubscription) {
           return of(
-            this.errorActionResult(
-              user,
-              'No tienes una suscripcion activa en este fondo.',
-            ),
+            this.errorActionResult(user, 'No tienes una suscripcion activa en este fondo.'),
           );
         }
 
@@ -139,17 +124,17 @@ export class PortfolioApiService implements PortfolioRepository {
           deletedSubscription: this.apiService.delete<unknown>(
             `/subscriptions/${currentSubscription.id}`,
           ),
-          transaction: this.apiService.post<
-            TransactionDbDto,
-            CreateTransactionDbDto
-          >('/transactions', {
-            userId: CURRENT_USER_ID,
-            fundId,
-            amount: currentSubscription.amount,
-            type: TransactionTypeEnum.CANCEL,
-            date: new Date().toISOString(),
-            notificationMethod: currentSubscription.notificationMethod,
-          }),
+          transaction: this.apiService.post<TransactionDbDto, CreateTransactionDbDto>(
+            '/transactions',
+            {
+              userId: CURRENT_USER_ID,
+              fundId,
+              amount: currentSubscription.amount,
+              type: TransactionTypeEnum.CANCEL,
+              date: new Date().toISOString(),
+              notificationMethod: currentSubscription.notificationMethod,
+            },
+          ),
         }).pipe(
           map(({ updatedUser }) => ({
             success: true,
@@ -166,9 +151,7 @@ export class PortfolioApiService implements PortfolioRepository {
   }
 
   private getSubscriptionsList(): Observable<SubscriptionDbDto[]> {
-    return this.apiService.get<SubscriptionDbDto[]>(
-      `/subscriptions?userId=${CURRENT_USER_ID}`,
-    );
+    return this.apiService.get<SubscriptionDbDto[]>(`/subscriptions?userId=${CURRENT_USER_ID}`);
   }
 
   private errorActionResult(user: UserDbDto, message: string): PortfolioActionResult {

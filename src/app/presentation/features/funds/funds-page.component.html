@@ -30,27 +30,40 @@
       @for (fund of funds(); track fund.id) {
         <li class="funds-page__card">
           <h2 class="funds-page__card-title">{{ fund.name }}</h2>
-          <p class="funds-page__card-text">Monto minimo: {{ fund.min | currency: 'COP' : 'symbol' : '1.0-0' }}</p>
+          <p class="funds-page__card-text">
+            Monto minimo: {{ fund.min | currency: 'COP' : 'symbol' : '1.0-0' }}
+          </p>
 
           @if (isSubscribed(fund.id)) {
             <p class="funds-page__status funds-page__status--subscribed">
-              Estado: Suscrito
-              ({{ getSubscriptionAmount(fund.id) | currency: 'COP' : 'symbol' : '1.0-0' }})
+              Estado: Suscrito ({{
+                getSubscriptionAmount(fund.id) | currency: 'COP' : 'symbol' : '1.0-0'
+              }})
             </p>
-            <button type="button" class="funds-page__button funds-page__button--danger" (click)="cancelSubscription(fund.id)">
+            <button
+              type="button"
+              class="funds-page__button funds-page__button--danger"
+              (click)="cancelSubscription(fund.id)"
+            >
               Cancelar suscripcion
             </button>
           } @else {
             <p class="funds-page__status">Estado: No suscrito</p>
 
             @if (!isSubscriptionFormOpen(fund.id)) {
-              <button type="button" class="funds-page__button" (click)="toggleSubscriptionForm(fund.id)">
+              <button
+                type="button"
+                class="funds-page__button"
+                (click)="toggleSubscriptionForm(fund.id)"
+              >
                 Suscribirme
               </button>
             }
 
             @if (isSubscriptionFormOpen(fund.id)) {
-              <label class="funds-page__field-label" [for]="'amount-' + fund.id">Monto a suscribir</label>
+              <label class="funds-page__field-label" [for]="'amount-' + fund.id"
+                >Monto a suscribir</label
+              >
               <input
                 [id]="'amount-' + fund.id"
                 class="funds-page__field-input"
@@ -60,7 +73,9 @@
                 (input)="onAmountChange(fund.id, $event)"
               />
 
-              <label class="funds-page__field-label" [for]="'notif-' + fund.id">Metodo de notificacion</label>
+              <label class="funds-page__field-label" [for]="'notif-' + fund.id"
+                >Metodo de notificacion</label
+              >
               <select
                 [id]="'notif-' + fund.id"
                 class="funds-page__field-input"
@@ -75,7 +90,11 @@
                 <button type="button" class="funds-page__button" (click)="subscribeToFund(fund)">
                   Confirmar suscripcion
                 </button>
-                <button type="button" class="funds-page__button funds-page__button--secondary" (click)="toggleSubscriptionForm(fund.id)">
+                <button
+                  type="button"
+                  class="funds-page__button funds-page__button--secondary"
+                  (click)="toggleSubscriptionForm(fund.id)"
+                >
                   Cerrar
                 </button>
               </div>

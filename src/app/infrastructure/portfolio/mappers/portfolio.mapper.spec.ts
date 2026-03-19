@@ -1,8 +1,4 @@
-import {
-  toSubscriptionRecord,
-  toTransactionEntity,
-  toUserEntity,
-} from './portfolio.mapper';
+import { toSubscriptionRecord, toTransactionEntity, toUserEntity } from './portfolio.mapper';
 
 describe('portfolio.mapper', () => {
   it('maps UserDbDto to User entity', () => {

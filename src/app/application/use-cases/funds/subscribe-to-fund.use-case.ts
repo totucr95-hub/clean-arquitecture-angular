@@ -18,9 +18,7 @@ interface SubscribeToFundInput {
   providedIn: 'root',
 })
 export class SubscribeToFundUseCase {
-  private readonly portfolioRepository = inject<PortfolioRepository>(
-    PORTFOLIO_REPOSITORY,
-  );
+  private readonly portfolioRepository = inject<PortfolioRepository>(PORTFOLIO_REPOSITORY);
 
   execute(input: SubscribeToFundInput): Observable<PortfolioActionResult> {
     if (input.amount < input.fund.min) {

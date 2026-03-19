@@ -26,14 +26,11 @@ export function toTransactionEntity(dto: TransactionDbDto): Transaction {
 export function toSubscriptionRecord(
   subscriptions: SubscriptionDbDto[],
 ): Record<number, PortfolioSubscription> {
-  return subscriptions.reduce<Record<number, PortfolioSubscription>>(
-    (acc, current) => {
-      acc[current.fundId] = {
-        amount: current.amount,
-        notificationMethod: current.notificationMethod,
-      };
-      return acc;
-    },
-    {},
-  );
+  return subscriptions.reduce<Record<number, PortfolioSubscription>>((acc, current) => {
+    acc[current.fundId] = {
+      amount: current.amount,
+      notificationMethod: current.notificationMethod,
+    };
+    return acc;
+  }, {});
 }

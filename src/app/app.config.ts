@@ -28,5 +28,5 @@ export const appConfig: ApplicationConfig = {
       provide: PORTFOLIO_REPOSITORY,
       useExisting: PortfolioApiService,
     },
-  ]
+  ],
 };

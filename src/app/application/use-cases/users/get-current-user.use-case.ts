@@ -8,9 +8,7 @@ import { User } from '../../../dominio/entities/user.entity';
   providedIn: 'root',
 })
 export class GetCurrentUserUseCase {
-  private readonly portfolioRepository = inject<PortfolioRepository>(
-    PORTFOLIO_REPOSITORY,
-  );
+  private readonly portfolioRepository = inject<PortfolioRepository>(PORTFOLIO_REPOSITORY);
 
   execute(): Observable<User> {
     return this.portfolioRepository.getUser();

@@ -19,9 +19,7 @@ describe('FundsPageFacade', () => {
   beforeEach(() => {
     jest.clearAllMocks();
 
-    getFundsUseCaseMock.execute.mockReturnValue(
-      of([{ id: 2, name: 'Fondo Test', min: 75000 }]),
-    );
+    getFundsUseCaseMock.execute.mockReturnValue(of([{ id: 2, name: 'Fondo Test', min: 75000 }]));
     getSubscriptionsUseCaseMock.execute.mockReturnValue(of({}));
     getCurrentUserUseCaseMock.execute.mockReturnValue(of({ id: 1, balance: 1000000 }));
     subscribeUseCaseMock.execute.mockReturnValue(
@@ -55,10 +53,7 @@ describe('FundsPageFacade', () => {
 
   it('handles amount and notification changes', () => {
     facade.onAmountChange(2, { target: { value: '123000' } } as unknown as Event);
-    facade.onNotificationMethodChange(
-      2,
-      { target: { value: 'SMS' } } as unknown as Event,
-    );
+    facade.onNotificationMethodChange(2, { target: { value: 'SMS' } } as unknown as Event);
 
     expect(facade.getAmountForFund(2, 75000)).toBe(123000);
     expect(facade.getNotificationForFund(2)).toBe('SMS');
@@ -76,10 +71,7 @@ describe('FundsPageFacade', () => {
   });
 
   it('maps unknown notification to EMAIL', () => {
-    facade.onNotificationMethodChange(
-      2,
-      { target: { value: 'OTHER' } } as unknown as Event,
-    );
+    facade.onNotificationMethodChange(2, { target: { value: 'OTHER' } } as unknown as Event);
 
     expect(facade.getNotificationForFund(2)).toBe('EMAIL');
   });
@@ -155,9 +147,7 @@ describe('FundsPageFacade', () => {
   });
 
   it('sets error when funds load fails', () => {
-    getFundsUseCaseMock.execute.mockReturnValueOnce(
-      throwError(() => new Error('network')),
-    );
+    getFundsUseCaseMock.execute.mockReturnValueOnce(throwError(() => new Error('network')));
 
     facade.loadInitialData();
 

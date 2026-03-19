@@ -1,14 +1,8 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Fund } from '../../../dominio/entities/fund.entity';
-import {
-  NotificationMethod,
-} from '../../../dominio/entities/transaction.entity';
+import { NotificationMethod } from '../../../dominio/entities/transaction.entity';
 import { FundsPageFacade } from './funds-page.facade';
 
 @Component({

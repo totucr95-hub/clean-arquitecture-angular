@@ -10,9 +10,7 @@ import {
   providedIn: 'root',
 })
 export class CancelFundSubscriptionUseCase {
-  private readonly portfolioRepository = inject<PortfolioRepository>(
-    PORTFOLIO_REPOSITORY,
-  );
+  private readonly portfolioRepository = inject<PortfolioRepository>(PORTFOLIO_REPOSITORY);
 
   execute(fundId: number): Observable<PortfolioActionResult> {
     return this.portfolioRepository.cancel(fundId);

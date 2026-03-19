@@ -13,8 +13,8 @@ export class FundApiService implements FundRepository {
   private readonly apiService = inject(ApiService);
 
   getFunds(): Observable<Fund[]> {
-    return this.apiService.get<FundDbDto[]>('/fondos').pipe(
-      map((funds) => funds.map(toFundEntity)),
-    );
+    return this.apiService
+      .get<FundDbDto[]>('/fondos')
+      .pipe(map((funds) => funds.map(toFundEntity)));
   }
 }

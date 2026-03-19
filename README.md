@@ -9,6 +9,8 @@ Aplicacion Angular para gestion de fondos, suscripciones/cancelaciones e histori
 - RxJS
 - json-server (mock backend)
 - Jest + jest-preset-angular (unit testing y cobertura)
+- ESLint + @angular-eslint (análisis de código estático)
+- Prettier (formateo de código)
 
 ## 2. Requisitos
 
@@ -57,8 +59,32 @@ npm run json-server
 - `npm test`: corre pruebas unitarias con Jest y genera cobertura
 - `npm run test:watch`: modo watch de Jest
 - `npm run test:ng`: runner de pruebas de Angular CLI
+- `npm run lint`: analiza el código con ESLint
+- `npm run format`: formatea el código con Prettier
 
-## 6. Pruebas unitarias y cobertura
+## 6. Calidad de código
+
+### Linting (ESLint)
+
+Analiza el código en busca de errores, malas prácticas y convenciones de Angular:
+
+```bash
+npm run lint
+```
+
+Configurado con reglas de `@angular-eslint` para TypeScript y templates HTML, integrado con `eslint-config-prettier` para evitar conflictos.
+
+### Formateo (Prettier)
+
+Aplica formato consistente a todos los archivos `.ts`, `.html` y `.scss`:
+
+```bash
+npx prettier --write "src/**/*.{ts,html,scss}"
+```
+
+Configuración en [.prettierrc](.prettierrc): comillas simples, ancho de línea 100, parser `angular` para HTML.
+
+## 7. Pruebas unitarias y cobertura
 
 Este proyecto usa Jest como runner principal.
 
@@ -83,7 +109,7 @@ Al ejecutar `npm test` se generan reportes en:
 
 Estado actual esperado: cobertura global muy alta (incluyendo casos de negocio, infraestructura, componentes y branches).
 
-## 7. Arquitectura
+## 8. Arquitectura
 
 Se aplica arquitectura limpia por capas:
 

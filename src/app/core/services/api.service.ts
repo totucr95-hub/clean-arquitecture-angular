@@ -1,9 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import {
-  HttpClient,
-  HttpHeaders,
-  HttpParams,
-} from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { API_BASE_URL } from '../tokens/api-base-url.token';
 
@@ -47,21 +43,16 @@ export class ApiService {
   }
 
   private buildUrl(endpoint: string): string {
-    const normalizedEndpoint = endpoint.startsWith('/')
-      ? endpoint
-      : `/${endpoint}`;
+    const normalizedEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
 
     return `${this.apiBaseUrl}${normalizedEndpoint}`;
   }
 }
 
-type HttpRequestOptions = {
+interface HttpRequestOptions {
   headers?: HttpHeaders | Record<string, string | string[]>;
   params?:
     | HttpParams
-    | Record<
-        string,
-        string | number | boolean | ReadonlyArray<string | number | boolean>
-      >;
+    | Record<string, string | number | boolean | readonly (string | number | boolean)[]>;
   withCredentials?: boolean;
-};
+}

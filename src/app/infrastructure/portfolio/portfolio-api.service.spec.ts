@@ -70,9 +70,7 @@ describe('PortfolioApiService', () => {
 
     const transactions = await firstValueFrom(service.getTransactions());
 
-    expect(apiServiceMock.get).toHaveBeenCalledWith(
-      '/transactions?userId=1&_sort=id&_order=desc',
-    );
+    expect(apiServiceMock.get).toHaveBeenCalledWith('/transactions?userId=1&_sort=id&_order=desc');
     expect(transactions).toEqual([
       {
         id: 10,
@@ -88,7 +86,9 @@ describe('PortfolioApiService', () => {
   it('returns duplicate-subscription error when subscription already exists', async () => {
     apiServiceMock.get
       .mockReturnValueOnce(of({ id: 1, balance: 100000 }))
-      .mockReturnValueOnce(of([{ id: 1, userId: 1, fundId: 2, amount: 50000, notificationMethod: 'EMAIL' }]));
+      .mockReturnValueOnce(
+        of([{ id: 1, userId: 1, fundId: 2, amount: 50000, notificationMethod: 'EMAIL' }]),
+      );
 
     const result = await firstValueFrom(
       service.subscribe({ fundId: 2, amount: 50000, notificationMethod: 'EMAIL' }),
@@ -119,9 +119,7 @@ describe('PortfolioApiService', () => {
       .mockReturnValueOnce(of({ id: 1, balance: 100000 }))
       .mockReturnValueOnce(of([]));
     apiServiceMock.patch.mockReturnValueOnce(of({ id: 1, balance: 20000 }));
-    apiServiceMock.post
-      .mockReturnValueOnce(of({ id: 99 }))
-      .mockReturnValueOnce(of({ id: 100 }));
+    apiServiceMock.post.mockReturnValueOnce(of({ id: 99 })).mockReturnValueOnce(of({ id: 100 }));
 
     const result = await firstValueFrom(
       service.subscribe({ fundId: 2, amount: 80000, notificationMethod: 'EMAIL' }),

@@ -8,9 +8,7 @@ import { Transaction } from '../../../dominio/entities/transaction.entity';
   providedIn: 'root',
 })
 export class GetTransactionsUseCase {
-  private readonly portfolioRepository = inject<PortfolioRepository>(
-    PORTFOLIO_REPOSITORY,
-  );
+  private readonly portfolioRepository = inject<PortfolioRepository>(PORTFOLIO_REPOSITORY);
 
   execute(): Observable<Transaction[]> {
     return this.portfolioRepository.getTransactions();
