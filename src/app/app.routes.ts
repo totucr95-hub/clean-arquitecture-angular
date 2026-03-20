@@ -20,4 +20,11 @@ export const routes: Routes = [
         (m) => m.TransactionsPageComponent,
       ),
   },
+  {
+    path: 'signals-lab',
+    loadComponent: () =>
+      import('./presentation/features/signals-lab/signals-lab.component').then(
+        (m) => m.SignalsLabComponent,
+      ),
+  },
 ];

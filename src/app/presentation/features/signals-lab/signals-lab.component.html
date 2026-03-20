@@ -1,0 +1,196 @@
+<section class="signals-lab">
+  <header class="signals-lab__header signals-lab__card">
+    <div>
+      <p class="signals-lab__eyebrow">Laboratorio Angular Signals</p>
+      <h1 class="signals-lab__title">Portfolio Insights Reactivo</h1>
+      <p class="signals-lab__subtitle">
+        Este feature usa tus endpoints reales para mostrar estado local, estado remoto y estado derivado con
+        Signals.
+      </p>
+    </div>
+
+    <nav class="signals-lab__nav" aria-label="Navegacion principal">
+      <a class="signals-lab__nav-link" routerLink="/funds" routerLinkActive="signals-lab__nav-link--active"
+        >Fondos</a
+      >
+      <a
+        class="signals-lab__nav-link"
+        routerLink="/transactions"
+        routerLinkActive="signals-lab__nav-link--active"
+        >Historial</a
+      >
+      <a
+        class="signals-lab__nav-link"
+        routerLink="/signals-lab"
+        routerLinkActive="signals-lab__nav-link--active"
+        >Signals Lab</a
+      >
+    </nav>
+  </header>
+
+  <section class="signals-lab__grid">
+    <article class="signals-lab__card">
+      <h2 class="signals-lab__section-title">1) Estado remoto con rxResource</h2>
+      <p class="signals-lab__section-text">
+        <strong>loading:</strong> {{ loading() }} | <strong>error:</strong> {{ error() ?? 'sin error' }}
+      </p>
+      <div class="signals-lab__actions">
+        <button type="button" class="signals-lab__button" (click)="refreshData()">Recargar endpoints</button>
+      </div>
+    </article>
+
+    <article class="signals-lab__card">
+      <h2 class="signals-lab__section-title">2) Estado local editable con signal</h2>
+      <p class="signals-lab__section-text">
+        Filtros reactivos: texto, monto minimo, tipo, fondo, orden y solo fondos activos.
+      </p>
+
+      <div class="signals-lab__filters">
+        <label class="signals-lab__field">
+          <span>Buscar</span>
+          <input
+            class="signals-lab__input"
+            type="text"
+            [value]="searchTerm()"
+            (input)="onSearchTermChange($event)"
+            placeholder="fondo, tipo o notificacion"
+          />
+        </label>
+
+        <label class="signals-lab__field">
+          <span>Monto minimo</span>
+          <input
+            class="signals-lab__input"
+            type="number"
+            [value]="minAmount()"
+            (input)="onMinAmountChange($event)"
+            min="0"
+          />
+        </label>
+
+        <label class="signals-lab__field">
+          <span>Tipo</span>
+          <select class="signals-lab__input" [value]="selectedType()" (change)="onTypeChange($event)">
+            <option value="ALL">Todos</option>
+            <option value="SUBSCRIBE">Suscripcion</option>
+            <option value="CANCEL">Cancelacion</option>
+          </select>
+        </label>
+
+        <label class="signals-lab__field">
+          <span>Fondo</span>
+          <select class="signals-lab__input" [value]="selectedFundId()" (change)="onFundChange($event)">
+            <option value="ALL">Todos los fondos</option>
+            @for (fund of fundFilterOptions(); track fund.id) {
+              <option [value]="fund.id">{{ fund.name }}</option>
+            }
+          </select>
+        </label>
+
+        <label class="signals-lab__check">
+          <input type="checkbox" [checked]="showOnlyActiveFunds()" (change)="onShowOnlyActiveFundsChange($event)" />
+          Solo fondos con suscripcion activa
+        </label>
+
+        <label class="signals-lab__check">
+          <input type="checkbox" [checked]="sortNewestFirst()" (change)="onSortNewestFirstChange($event)" />
+          Ordenar de mas reciente a mas antiguo
+        </label>
+      </div>
+
+      <div class="signals-lab__actions">
+        <button type="button" class="signals-lab__button signals-lab__button--secondary" (click)="clearFilters()">
+          Limpiar filtros
+        </button>
+      </div>
+    </article>
+  </section>
+
+  <section class="signals-lab__kpis signals-lab__card" aria-label="Metricas derivadas">
+    <h2 class="signals-lab__section-title">3) Estado derivado con computed</h2>
+    <div class="signals-lab__kpi-grid">
+      <article class="signals-lab__kpi-item">
+        <p class="signals-lab__kpi-label">Saldo disponible</p>
+        <p class="signals-lab__kpi-value">{{ remainingBalance() | currency: 'COP' : 'symbol' : '1.0-0' }}</p>
+      </article>
+
+      <article class="signals-lab__kpi-item">
+        <p class="signals-lab__kpi-label">Capital suscrito activo</p>
+        <p class="signals-lab__kpi-value">{{ subscribedCapital() | currency: 'COP' : 'symbol' : '1.0-0' }}</p>
+      </article>
+
+      <article class="signals-lab__kpi-item">
+        <p class="signals-lab__kpi-label">Suscripciones activas</p>
+        <p class="signals-lab__kpi-value">{{ activeSubscriptionsCount() }}</p>
+      </article>
+
+      <article class="signals-lab__kpi-item">
+        <p class="signals-lab__kpi-label">Promedio ticket filtrado</p>
+        <p class="signals-lab__kpi-value">{{ averageTicket() | currency: 'COP' : 'symbol' : '1.0-0' }}</p>
+      </article>
+
+      <article class="signals-lab__kpi-item">
+        <p class="signals-lab__kpi-label">Filtradas: Suscripcion</p>
+        <p class="signals-lab__kpi-value">{{ subscribeCount() }}</p>
+      </article>
+
+      <article class="signals-lab__kpi-item">
+        <p class="signals-lab__kpi-label">Filtradas: Cancelacion</p>
+        <p class="signals-lab__kpi-value">{{ cancelCount() }}</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="signals-lab__card" aria-label="Tabla de movimientos">
+    <h2 class="signals-lab__section-title">4) Render reactivo en plantilla</h2>
+
+    @if (loading()) {
+      <p class="signals-lab__state">Cargando datos...</p>
+    }
+
+    @if (error()) {
+      <p class="signals-lab__state signals-lab__state--error">{{ error() }}</p>
+    }
+
+    @if (!loading() && !error()) {
+      <div class="signals-lab__table-shell">
+        <table class="signals-lab__table">
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>Fondo</th>
+              <th>Tipo</th>
+              <th>Monto</th>
+              <th>Notificacion</th>
+            </tr>
+          </thead>
+          <tbody>
+            @if (filteredTransactions().length === 0) {
+              <tr>
+                <td colspan="5" class="signals-lab__empty">No hay transacciones para los filtros actuales.</td>
+              </tr>
+            }
+
+            @for (transaction of filteredTransactions(); track transaction.id) {
+              <tr>
+                <td>{{ transaction.date | date: 'medium' }}</td>
+                <td>{{ transaction.fundName }}</td>
+                <td>
+                  <span
+                    class="signals-lab__badge"
+                    [class.signals-lab__badge--subscribe]="transaction.type === 'SUBSCRIBE'"
+                    [class.signals-lab__badge--cancel]="transaction.type === 'CANCEL'"
+                  >
+                    {{ transaction.type }}
+                  </span>
+                </td>
+                <td>{{ transaction.amount | currency: 'COP' : 'symbol' : '1.0-0' }}</td>
+                <td>{{ transaction.notificationMethod }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </section>
+</section>
